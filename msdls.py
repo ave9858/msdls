@@ -81,9 +81,6 @@ def get_data_from_ms(params):
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0",
     }
 
-    requests.get(
-        f'https://vlscppe.microsoft.com/fp/tags?org_id=y6jn8c31&session_id={params["sessionId"]}'
-    )
     r = requests.get(MICROSOFT_URL, params=params, headers=headers)
     if not r.ok:
         return False
@@ -127,6 +124,9 @@ def check_download(skuId, language, sessionId):
         "sdVersion": "2",
     }
 
+    requests.get(
+        f"https://vlscppe.microsoft.com/fp/tags?org_id=y6jn8c31&session_id={sessionId}"
+    )
     html = get_data_from_ms(params)
     if html == False:
         return False
