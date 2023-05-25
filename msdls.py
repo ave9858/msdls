@@ -81,6 +81,9 @@ def get_data_from_ms(params):
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0",
     }
 
+    requests.get(
+        f'https://vlscppe.microsoft.com/fp/tags?org_id=y6jn8c31&session_id={params["sessionId"]}'
+    )
     r = requests.get(MICROSOFT_URL, params=params, headers=headers)
     if not r.ok:
         return False
@@ -187,8 +190,8 @@ if __name__ == "__main__":
         json_file = args.update
         from_json = json.loads(args.update.read())
 
-        if "products" in from_json:
-            products = from_json["products"]
+        if from_json:
+            products = from_json
 
     for i in range(args.first, args.last + 1):
         if str(i) in products:
@@ -209,7 +212,7 @@ if __name__ == "__main__":
         logging.info("Writing the JSON file...")
         json_file.seek(0)
         json_file.truncate(0)
-        json_file.write(json.dumps({"products": products}, indent=2))
+        json_file.write(json.dumps(products, indent="\t"))
         json_file.write("\n")
 
     logging.info("Done")
